@@ -1,74 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>What should we eat? 🍝</title>
-  <style>
-    body {
-      background: #020617;
-      color: #e5e7eb;
-      font-family: monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8">
+<title>One small game 🍝</title>
 
-    .box {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 30px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(236,72,153,0.2);
-    }
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1b0033, #050010);
+    font-family: monospace;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    h2 {
-      margin-bottom: 10px;
-    }
+  .card {
+    width: 340px;
+    background: rgba(10, 10, 30, 0.9);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 0 40px rgba(255, 0, 150, 0.35);
+    text-align: center;
+  }
 
-    button {
-      margin: 8px 0;
-      width: 100%;
-      padding: 12px;
-      font-family: monospace;
-      font-size: 15px;
-      background: #ec4899;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+  h2 {
+    margin-bottom: 10px;
+  }
 
-    button:hover {
-      background: #db2777;
-    }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
 
-    img {
-      margin-top: 20px;
-      width: 160px;
-      border-radius: 10px;
-    }
-  </style>
+  .tile {
+    width: 52px;
+    height: 52px;
+    border: 2px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #111;
+  }
+
+  .correct {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: #022c22;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: #ff4fa3;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #gif {
+    display: none;
+    margin-top: 16px;
+    width: 100%;
+    border-radius: 14px;
+  }
+
+  #nextBtn {
+    display: none;
+    background: #ff77c8;
+  }
+
+  .hint {
+    font-size: 13px;
+    opacity: 0.8;
+  }
+</style>
 </head>
+
 <body>
 
-<div class="box">
-  <h2>What would you like to eat? 😋</h2>
-  <p>I know you love Italian… just saying 🍝</p>
+<div class="card">
+  <h2>One quick game 😏</h2>
+  <p class="hint">5 letters. You’ll get it.</p>
 
-  <button onclick="pickFood('Pizza 🍕')">🍕 Pizza</button>
-  <button onclick="pickFood('Pasta 🍝')">🍝 Pasta</button>
-  <button onclick="pickFood('Light Italian 🥗')">🥗 Light Italian</button>
-  <button onclick="pickFood('Dessert first 🍨')">🍨 Dessert first</button>
+  <div class="grid">
+    <div class="tile" id="t0"></div>
+    <div class="tile" id="t1"></div>
+    <div class="tile" id="t2"></div>
+    <div class="tile" id="t3"></div>
+    <div class="tile" id="t4"></div>
+  </div>
 
-  <img src="https://media4.giphy.com/media/vB6GQ7Ogc6j4I/giphy.gif" />
+  <input
+    id="guess"
+    maxlength="5"
+    placeholder="TYPE HERE"
+    oninput="this.value = this.value.toUpperCase()"
+  >
+
+  <button onclick="checkWord()">Submit</button>
+
+  <img
+    id="gif"
+    src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+    alt="pasta celebration"
+  >
+
+  <button id="nextBtn" onclick="goNext()">Next 💕</button>
 </div>
 
 <script>
-  function pickFood(food) {
-    localStorage.setItem("foodChoice", food);
+  const answer = "PASTA";
+
+  function checkWord() {
+    const guess = document.getElementById("guess").value.toUpperCase();
+
+    if (guess.length !== 5) return;
+
+    for (let i = 0; i < 5; i++) {
+      const tile = document.getElementById("t" + i);
+      tile.innerText = guess[i];
+
+      if (guess[i] === answer[i]) {
+        tile.classList.add("correct");
+      }
+    }
+
+    if (guess === answer) {
+      document.getElementById("gif").style.display = "block";
+      document.getElementById("nextBtn").style.display = "block";
+      localStorage.setItem("foodChoice", "Pasta 🍝");
+    }
+  }
+
+  function goNext() {
     window.location.href = "plan.html";
   }
 </script>
