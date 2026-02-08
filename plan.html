@@ -5,127 +5,159 @@
 <title>Warm-up Bowl 🎳</title>
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at top, #2a0045, #050010);
-    font-family: monospace;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #32004f, #070012);
+  font-family: monospace;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .card {
-    width: 360px;
-    background: rgba(15, 10, 35, 0.95);
-    border-radius: 20px;
-    padding: 22px;
-    box-shadow: 0 0 45px rgba(255, 0, 150, 0.35);
-    text-align: center;
-    position: relative;
-  }
+.card {
+  width: 370px;
+  background: rgba(12, 8, 30, 0.97);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 0 55px rgba(255, 0, 150, 0.45);
+  text-align: center;
+}
 
-  h2 {
-    margin-bottom: 6px;
-  }
+h2 {
+  margin: 0;
+}
 
-  .sub {
-    font-size: 14px;
-    opacity: 0.8;
-    margin-bottom: 12px;
-  }
+.sub {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 12px;
+}
 
-  .lane {
-    position: relative;
-    height: 160px;
-    background: linear-gradient(#3b2f2f, #2a1f1f);
-    border-radius: 14px;
-    margin: 16px 0;
-    overflow: hidden;
-  }
+/* 🎳 LANE */
+.lane {
+  margin: 14px 0;
+  background: linear-gradient(#3b2f2f, #241919);
+  height: 170px;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
 
-  .ball {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 28px;
-    transition: bottom 0.9s ease;
-  }
+/* 🎳 PINS – REAL TRIANGLE */
+.pins {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
 
-  .pins {
-    position: absolute;
-    top: 14px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    font-size: 20px;
-  }
+.pin {
+  font-size: 20px;
+  animation: wobble 1.4s infinite;
+}
 
-  .pin {
-    animation: wobble 1.5s infinite;
-  }
+@keyframes wobble {
+  0%,100% { transform: rotate(0); }
+  50% { transform: rotate(6deg); }
+}
 
-  @keyframes wobble {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-6deg); }
-    75% { transform: rotate(6deg); }
-  }
+.fallen {
+  transform: rotate(90deg) translateY(10px);
+  opacity: 0.25;
+  animation: none;
+}
 
-  .fallen {
-    opacity: 0.3;
-    transform: rotate(90deg);
-    animation: none;
-  }
+/* BALL */
+.ball {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
 
-  button {
-    width: 100%;
-    padding: 12px;
-    background: #ff4fa3;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
+/* 🎯 POWER METER */
+.meter {
+  height: 12px;
+  background: #1f2937;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+  position: relative;
+}
 
-  .scorecard {
-    margin-top: 14px;
-    font-size: 14px;
-    line-height: 1.6;
-  }
+.strike-zone {
+  position: absolute;
+  left: 45%;
+  width: 10%;
+  height: 100%;
+  background: rgba(255, 215, 0, 0.35);
+  box-shadow: 0 0 14px gold;
+}
 
-  .message {
-    display: none;
-    margin-top: 16px;
-    font-size: 15px;
-  }
+.meter-fill {
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(90deg, #ff4fa3, #ffd36e);
+  animation: move 1.4s linear infinite alternate;
+}
 
-  #nextBtn {
-    display: none;
-    background: #ff77c8;
-  }
+@keyframes move {
+  from { transform: translateX(0); }
+  to { transform: translateX(230px); }
+}
 
-  /* Confetti */
-  .confetti {
-    position: fixed;
-    top: -10px;
-    width: 8px;
-    height: 14px;
-    opacity: 0.9;
-    animation: fall linear forwards;
-    z-index: 999;
-  }
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #ff4fa3;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-size: 16px;
+  margin-top: 14px;
+  cursor: pointer;
+}
 
-  @keyframes fall {
-    to {
-      transform: translateY(110vh) rotate(720deg);
-      opacity: 0;
-    }
-  }
+/* FEEDBACK */
+#feedback {
+  margin-top: 10px;
+  font-size: 14px;
+  height: 18px;
+}
+
+/* SCORE */
+.scorecard {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* TROPHY */
+#trophy {
+  font-size: 42px;
+  display: none;
+  animation: pop 0.8s ease forwards;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* END */
+#ending, #nextBtn {
+  display: none;
+  margin-top: 14px;
+}
 </style>
 </head>
 
@@ -137,20 +169,28 @@
 
   <div class="lane">
     <div class="pins" id="pins"></div>
-    <div class="ball" id="ball">🎳</div>
+    <div class="ball">🎳</div>
+  </div>
+
+  <div class="meter">
+    <div class="strike-zone"></div>
+    <div class="meter-fill" id="meter"></div>
   </div>
 
   <button onclick="bowl()">BOWL 🎳</button>
 
+  <div id="feedback"></div>
+  <div id="trophy">🏆</div>
+
   <div class="scorecard" id="scorecard">
     <strong>Chan’s Score</strong><br>
-    Round 1: – <br>
-    Round 2: – <br>
-    Round 3: – <br>
+    Round 1: –<br>
+    Round 2: –<br>
+    Round 3: –<br>
     <strong>Total: 0</strong>
   </div>
 
-  <div class="message" id="message">
+  <div id="ending">
     <strong>Now get ready to play for real 😌🎳</strong><br>
     After lunch, we’re going bowling.
   </div>
@@ -158,100 +198,111 @@
   <button id="nextBtn" onclick="goNext()">Next 💕</button>
 </div>
 
-<!-- Subtle sound -->
-<audio id="bowlSound" src="https://www.soundjay.com/sports/bowling-ball-roll-01.mp3" preload="auto"></audio>
+<!-- 🔊 SOUNDS -->
+<audio id="rollSound" src="https://www.soundjay.com/sports/bowling-ball-roll-01.mp3"></audio>
+<audio id="cheerSound" src="https://www.soundjay.com/human/applause-8.mp3"></audio>
 
 <script>
-  let round = 0;
-  let scores = [];
-  const ball = document.getElementById("ball");
-  const pinsDiv = document.getElementById("pins");
-  const scorecard = document.getElementById("scorecard");
-  const sound = document.getElementById("bowlSound");
+let round = 0;
+let scores = [];
 
-  function resetPins() {
-    pinsDiv.innerHTML = "";
-    for (let i = 0; i < 10; i++) {
+function setupPins() {
+  const p = document.getElementById("pins");
+  p.innerHTML = "";
+  const layout = [1,2,3,4];
+  layout.forEach((count, row) => {
+    for (let i = 0; i < count; i++) {
       const pin = document.createElement("div");
       pin.className = "pin";
-      pin.innerText = "🎳";
-      pinsDiv.appendChild(pin);
+      pin.textContent = "🎳";
+      p.appendChild(pin);
     }
+  });
+}
+setupPins();
+
+function bowl() {
+  if (round >= 3) return;
+
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("trophy").style.display = "none";
+
+  document.getElementById("rollSound").volume = 0.25;
+  document.getElementById("rollSound").play();
+
+  const meter = document.getElementById("meter");
+  const pos = meter.getBoundingClientRect().left -
+              meter.parentElement.getBoundingClientRect().left;
+
+  let score;
+  if (pos > 95 && pos < 125) {
+    score = 10;
+    document.getElementById("feedback").textContent = "STRIKE!! 🔥";
+    document.getElementById("trophy").style.display = "block";
+    document.getElementById("cheerSound").volume = 0.25;
+    document.getElementById("cheerSound").play();
+    confetti();
+  } else if (pos > 70 && pos < 150) {
+    score = 7;
+    document.getElementById("feedback").textContent = "Nice roll 😏";
+  } else {
+    score = Math.floor(Math.random() * 4) + 1;
+    document.getElementById("feedback").textContent = "Almost 😉";
   }
 
-  resetPins();
+  scores.push(score);
+  round++;
 
-  function bowl() {
-    if (round >= 3) return;
-
-    sound.volume = 0.25;
-    sound.currentTime = 0;
-    sound.play();
-
-    ball.style.bottom = "120px";
-
-    setTimeout(() => {
-      const pinsKnocked = Math.floor(Math.random() * 11);
-      scores.push(pinsKnocked);
-      round++;
-
-      const pins = document.querySelectorAll(".pin");
-      for (let i = 0; i < pinsKnocked; i++) {
-        if (pins[i]) pins[i].classList.add("fallen");
-      }
-
-      updateScore();
-
-      if (pinsKnocked === 10) {
-        launchConfetti();
-        endGame();
-      } else if (round === 3) {
-        endGame();
-      } else {
-        setTimeout(() => {
-          ball.style.bottom = "10px";
-          resetPins();
-        }, 1100);
-      }
-    }, 900);
+  const pins = document.querySelectorAll(".pin");
+  for (let i = 0; i < score && i < pins.length; i++) {
+    pins[i].classList.add("fallen");
   }
 
-  function updateScore() {
-    let total = scores.reduce((a, b) => a + b, 0);
-    let html = "<strong>Chan’s Score</strong><br>";
+  updateScore();
 
-    for (let i = 0; i < 3; i++) {
-      html += `Round ${i + 1}: ${scores[i] ?? "–"}<br>`;
-    }
-
-    html += `<strong>Total: ${total}</strong>`;
-    scorecard.innerHTML = html;
-  }
-
-  function endGame() {
-    document.getElementById("message").style.display = "block";
+  if (score === 10 || round === 3) {
+    document.getElementById("ending").style.display = "block";
     document.getElementById("nextBtn").style.display = "block";
-    localStorage.setItem("activity", "Bowling 🎳");
+  } else {
+    setTimeout(setupPins, 900);
   }
+}
 
-  function goNext() {
-    window.location.href = "excited.html";
+function updateScore() {
+  let total = scores.reduce((a,b)=>a+b,0);
+  let html = "<strong>Chan’s Score</strong><br>";
+  for (let i = 0; i < 3; i++) {
+    html += `Round ${i+1}: ${scores[i] ?? "–"}<br>`;
   }
+  html += `<strong>Total: ${total}</strong>`;
+  document.getElementById("scorecard").innerHTML = html;
+}
 
-  function launchConfetti() {
-    const colors = ["#ff4fa3", "#ffcc00", "#7CFFCB", "#8ec5fc", "#ffffff"];
-    for (let i = 0; i < 60; i++) {
-      const c = document.createElement("div");
-      c.className = "confetti";
-      c.style.left = Math.random() * 100 + "vw";
-      c.style.backgroundColor =
-        colors[Math.floor(Math.random() * colors.length)];
-      c.style.animationDuration = 2 + Math.random() * 2 + "s";
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 4000);
-    }
+function goNext() {
+  window.location.href = "excited.html";
+}
+
+/* 🎉 CONFETTI */
+function confetti() {
+  for (let i = 0; i < 20; i++) {
+    const c = document.createElement("div");
+    c.textContent = "🎉";
+    c.style.position = "fixed";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.top = "-20px";
+    c.style.fontSize = "18px";
+    c.style.animation = "fall 1.5s linear";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1500);
   }
+}
 </script>
+
+<style>
+@keyframes fall {
+  to { transform: translateY(100vh); opacity: 0; }
+}
+</style>
 
 </body>
 </html>
