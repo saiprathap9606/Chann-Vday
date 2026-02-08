@@ -1,48 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Valentine 💖</title>
+
   <style>
     body {
       margin: 0;
       height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       background: radial-gradient(circle at top, #1b0033, #050010);
       font-family: monospace;
       color: white;
-      overflow: hidden;
     }
 
-    .container {
+    .card {
       width: 340px;
-      background: rgba(10, 10, 30, 0.85);
+      background: rgba(10, 10, 30, 0.9);
       border-radius: 18px;
       padding: 22px;
-      box-shadow: 0 0 40px rgba(255, 0, 150, 0.3);
+      box-shadow: 0 0 40px rgba(255, 0, 150, 0.35);
       text-align: center;
     }
 
     button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
       background: #ff4fa3;
       border: none;
       border-radius: 12px;
-      padding: 12px;
-      margin: 8px 0;
-      width: 100%;
+      color: white;
       font-size: 16px;
       cursor: pointer;
-      color: white;
     }
 
     button:hover {
-      transform: scale(1.03);
+      transform: scale(1.04);
+    }
+
+    .output {
+      text-align: left;
+      margin-top: 14px;
+      min-height: 150px;
+      white-space: pre-line;
+      font-size: 14px;
     }
 
     .choices {
-      margin-top: 16px;
+      display: none;
+      margin-top: 10px;
     }
 
     #gif {
@@ -52,85 +61,41 @@
       border-radius: 14px;
     }
 
-    .output {
-      text-align: left;
-      margin-top: 14px;
-      min-height: 140px;
-      white-space: pre-line;
-      font-size: 14px;
+    #nextBtn {
+      display: none;
+      background: #ff77c8;
     }
   </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
   <div>~/valentine-project</div>
 
-  <button onclick="runProgram()">Run Program</button>
+  <button onclick="start()">Run Program</button>
 
   <div id="output" class="output"></div>
 
-  <div class="choices" id="choices" style="display:none;">
-    <button onclick="yesClicked()">YES 💖</button>
-    <button onclick="noClicked()">NO 🙃</button>
+  <div id="choices" class="choices">
+    <button onclick="yes()">YES 💖</button>
+    <button onclick="no()">NO 🙃</button>
   </div>
 
-  <!-- CHANGE GIF LINK HERE IF NEEDED -->
+  <!-- YOUR GIF -->
   <img
     id="gif"
-    src="https://media.giphy.com/media/MDJ9IbxvDUQM/giphy.gif"
-    alt="cute gif"
-  />
+    src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+    alt="cute cat"
+  >
+
+  <button id="nextBtn" onclick="goNext()">Next 💕</button>
 </div>
 
 <script>
-  const lines = [
+  const text = [
     "Initializing...",
     "Loading feelings...",
     "Compiling courage...",
     "",
-    "Hi Bangaramm 👋",
-    "",
-    "I have an important question...",
-    "",
-    "Will you be my Valentine? 💗"
-  ];
-
-  let index = 0;
-
-  function runProgram() {
-    index = 0;
-    document.getElementById("output").innerText = "";
-    document.getElementById("choices").style.display = "none";
-    typeLine();
-  }
-
-  function typeLine() {
-    if (index < lines.length) {
-      document.getElementById("output").innerText += lines[index] + "\n";
-      index++;
-      setTimeout(typeLine, 500);
-    } else {
-      document.getElementById("choices").style.display = "block";
-    }
-  }
-
-  function yesClicked() {
-    document.getElementById("choices").style.display = "none";
-    document.getElementById("output").innerText += "\nHehehe… I knew it 😊💕\n";
-    document.getElementById("gif").style.display = "block";
-
-    // 🚀 AUTO MOVE TO NEXT PAGE
-    setTimeout(() => {
-      window.location.href = "date.html";
-    }, 2500);
-  }
-
-  function noClicked() {
-    document.getElementById("output").innerText += "\nError: Option not supported 😌";
-  }
-</script>
-
-</body>
-</html>
+    "Hi Bangaram
