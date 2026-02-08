@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>One small game 🍝</title>
+<title>Prove you know me 😌</title>
 
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: radial-gradient(circle at top, #1b0033, #050010);
-    font-family: monospace;
+    background: radial-gradient(circle at top, #2a0045, #050010);
+    font-family: "Arial", sans-serif;
     color: white;
     display: flex;
     justify-content: center;
@@ -17,59 +17,68 @@
   }
 
   .card {
-    width: 340px;
-    background: rgba(10, 10, 30, 0.9);
-    border-radius: 18px;
+    width: 360px;
+    background: rgba(15, 10, 35, 0.95);
+    border-radius: 20px;
     padding: 22px;
-    box-shadow: 0 0 40px rgba(255, 0, 150, 0.35);
+    box-shadow: 0 0 45px rgba(255, 0, 150, 0.4);
     text-align: center;
   }
 
   h2 {
-    margin-bottom: 10px;
+    margin-bottom: 4px;
+  }
+
+  .sub {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 16px;
   }
 
   .grid {
     display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .row {
+    display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin: 16px 0;
+    gap: 6px;
   }
 
   .tile {
     width: 52px;
     height: 52px;
-    border: 2px solid #444;
+    border: 2px solid #3a3a3a;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 22px;
     font-weight: bold;
     text-transform: uppercase;
-    background: #111;
+    background: #121212;
   }
 
-  .correct {
-    background: #22c55e;
-    border-color: #22c55e;
-    color: #022c22;
-  }
+  .gray { background: #3a3a3c; border-color: #3a3a3c; }
+  .yellow { background: #b59f3b; border-color: #b59f3b; color: #111; }
+  .green { background: #538d4e; border-color: #538d4e; }
 
   input {
     width: 100%;
     padding: 10px;
     border-radius: 10px;
     border: none;
-    margin-top: 10px;
     font-size: 16px;
-    text-transform: uppercase;
     text-align: center;
+    text-transform: uppercase;
   }
 
   button {
     width: 100%;
     padding: 12px;
-    margin-top: 12px;
+    margin-top: 10px;
     background: #ff4fa3;
     border: none;
     border-radius: 12px;
@@ -89,41 +98,24 @@
     display: none;
     background: #ff77c8;
   }
-
-  .hint {
-    font-size: 13px;
-    opacity: 0.8;
-  }
 </style>
 </head>
 
 <body>
 
 <div class="card">
-  <h2>One quick game 😏</h2>
-  <p class="hint">5 letters. You’ll get it.</p>
+  <h2>Prove you know me 😌</h2>
+  <div class="sub">Five letters. No hints.</div>
 
-  <div class="grid">
-    <div class="tile" id="t0"></div>
-    <div class="tile" id="t1"></div>
-    <div class="tile" id="t2"></div>
-    <div class="tile" id="t3"></div>
-    <div class="tile" id="t4"></div>
-  </div>
+  <div class="grid" id="grid"></div>
 
-  <input
-    id="guess"
-    maxlength="5"
-    placeholder="TYPE HERE"
-    oninput="this.value = this.value.toUpperCase()"
-  >
-
-  <button onclick="checkWord()">Submit</button>
+  <input id="guess" maxlength="5" placeholder="TYPE WORD">
+  <button onclick="submitGuess()">Submit</button>
 
   <img
     id="gif"
     src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
-    alt="pasta celebration"
+    alt="celebration"
   >
 
   <button id="nextBtn" onclick="goNext()">Next 💕</button>
@@ -131,18 +123,53 @@
 
 <script>
   const answer = "PASTA";
+  let currentRow = 0;
 
-  function checkWord() {
-    const guess = document.getElementById("guess").value.toUpperCase();
+  const grid = document.getElementById("grid");
 
-    if (guess.length !== 5) return;
+  // build empty grid
+  for (let r = 0; r < 6; r++) {
+    const row = document.createElement("div");
+    row.className = "row";
+    for (let c = 0; c < 5; c++) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      row.appendChild(tile);
+    }
+    grid.appendChild(row);
+  }
 
+  function submitGuess() {
+    const input = document.getElementById("guess");
+    const guess = input.value.toUpperCase();
+    if (guess.length !== 5 || currentRow >= 6) return;
+
+    const row = grid.children[currentRow];
+    const answerArr = answer.split("");
+    const guessArr = guess.split("");
+
+    // First pass: greens
     for (let i = 0; i < 5; i++) {
-      const tile = document.getElementById("t" + i);
-      tile.innerText = guess[i];
+      const tile = row.children[i];
+      tile.innerText = guessArr[i];
 
-      if (guess[i] === answer[i]) {
-        tile.classList.add("correct");
+      if (guessArr[i] === answerArr[i]) {
+        tile.classList.add("green");
+        answerArr[i] = null;
+        guessArr[i] = null;
+      }
+    }
+
+    // Second pass: yellows & grays
+    for (let i = 0; i < 5; i++) {
+      const tile = row.children[i];
+      if (tile.classList.contains("green")) continue;
+
+      if (answerArr.includes(guessArr[i])) {
+        tile.classList.add("yellow");
+        answerArr[answerArr.indexOf(guessArr[i])] = null;
+      } else {
+        tile.classList.add("gray");
       }
     }
 
@@ -151,6 +178,9 @@
       document.getElementById("nextBtn").style.display = "block";
       localStorage.setItem("foodChoice", "Pasta 🍝");
     }
+
+    currentRow++;
+    input.value = "";
   }
 
   function goNext() {
