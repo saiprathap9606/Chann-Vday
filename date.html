@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pick a Time 💘</title>
+  <style>
+    body {
+      background: #020617;
+      color: #e5e7eb;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 30px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(236,72,153,0.2);
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin: 10px 0;
+      width: 100%;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 15px;
+      background: #ec4899;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #db2777;
+    }
+
+    img {
+      margin-top: 20px;
+      width: 160px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>When are you free? 💖</h2>
+  <p>Valentine’s Day is fixed…<br>pick a time 😌</p>
+
+  <button onclick="pickTime('6:00 PM')">🌆 6:00 PM</button>
+  <button onclick="pickTime('7:00 PM')">🌇 7:00 PM</button>
+  <button onclick="pickTime('8:00 PM')">🌙 8:00 PM</button>
+
+  <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" />
+</div>
+
+<script>
+  function pickTime(time) {
+    localStorage.setItem("dateTime", time);
+    window.location.href = "food.html";
+  }
+</script>
+
+</body>
+</html>
