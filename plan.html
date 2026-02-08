@@ -1,75 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>What should we do? 🎬</title>
-  <style>
-    body {
-      background: #020617;
-      color: #e5e7eb;
-      font-family: monospace;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<meta charset="UTF-8">
+<title>Warm-up Bowl 🎳</title>
 
-    .box {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 30px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(236,72,153,0.2);
-    }
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #2a0045, #050010);
+    font-family: monospace;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    h2 {
-      margin-bottom: 10px;
-    }
+  .card {
+    width: 360px;
+    background: rgba(15, 10, 35, 0.95);
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 0 45px rgba(255, 0, 150, 0.35);
+    text-align: center;
+    position: relative;
+  }
 
-    button {
-      margin: 8px 0;
-      width: 100%;
-      padding: 12px;
-      font-family: monospace;
-      font-size: 15px;
-      background: #ec4899;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+  h2 {
+    margin-bottom: 6px;
+  }
 
-    button:hover {
-      background: #db2777;
-    }
+  .sub {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 12px;
+  }
 
-    img {
-      margin-top: 20px;
-      width: 160px;
-      border-radius: 10px;
+  .lane {
+    position: relative;
+    height: 160px;
+    background: linear-gradient(#3b2f2f, #2a1f1f);
+    border-radius: 14px;
+    margin: 16px 0;
+    overflow: hidden;
+  }
+
+  .ball {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    transition: bottom 0.9s ease;
+  }
+
+  .pins {
+    position: absolute;
+    top: 14px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    font-size: 20px;
+  }
+
+  .pin {
+    animation: wobble 1.5s infinite;
+  }
+
+  @keyframes wobble {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-6deg); }
+    75% { transform: rotate(6deg); }
+  }
+
+  .fallen {
+    opacity: 0.3;
+    transform: rotate(90deg);
+    animation: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #ff4fa3;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .scorecard {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .message {
+    display: none;
+    margin-top: 16px;
+    font-size: 15px;
+  }
+
+  #nextBtn {
+    display: none;
+    background: #ff77c8;
+  }
+
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 8px;
+    height: 14px;
+    opacity: 0.9;
+    animation: fall linear forwards;
+    z-index: 999;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(720deg);
+      opacity: 0;
     }
-  </style>
+  }
+</style>
 </head>
+
 <body>
 
-<div class="box">
-  <h2>What would you like to do next? 😄</h2>
-  <p>Your call… I’m excited already 😌</p>
+<div class="card">
+  <h2>Warm-up game 🎳</h2>
+  <div class="sub">Three rolls. Chan starts 😌</div>
 
-  <button onclick="pickPlan('Movie 🎥')">🎥 Movie</button>
-  <button onclick="pickPlan('Drive 🚗')">🚗 Drive</button>
-  <button onclick="pickPlan('Bowling 🎳')">🎳 Bowling</button>
-  <button onclick="pickPlan('Board Games 🎲')">🎲 Board Games</button>
+  <div class="lane">
+    <div class="pins" id="pins"></div>
+    <div class="ball" id="ball">🎳</div>
+  </div>
 
-  <img src="https://media3.giphy.com/media/CKD3WF1bowAFhyiJzk/giphy.gif" />
+  <button onclick="bowl()">BOWL 🎳</button>
+
+  <div class="scorecard" id="scorecard">
+    <strong>Chan’s Score</strong><br>
+    Round 1: – <br>
+    Round 2: – <br>
+    Round 3: – <br>
+    <strong>Total: 0</strong>
+  </div>
+
+  <div class="message" id="message">
+    <strong>Now get ready to play for real 😌🎳</strong><br>
+    After lunch, we’re going bowling.
+  </div>
+
+  <button id="nextBtn" onclick="goNext()">Next 💕</button>
 </div>
 
+<!-- Subtle sound -->
+<audio id="bowlSound" src="https://www.soundjay.com/sports/bowling-ball-roll-01.mp3" preload="auto"></audio>
+
 <script>
-  function pickPlan(plan) {
-    localStorage.setItem("activity", plan);
+  let round = 0;
+  let scores = [];
+  const ball = document.getElementById("ball");
+  const pinsDiv = document.getElementById("pins");
+  const scorecard = document.getElementById("scorecard");
+  const sound = document.getElementById("bowlSound");
+
+  function resetPins() {
+    pinsDiv.innerHTML = "";
+    for (let i = 0; i < 10; i++) {
+      const pin = document.createElement("div");
+      pin.className = "pin";
+      pin.innerText = "🎳";
+      pinsDiv.appendChild(pin);
+    }
+  }
+
+  resetPins();
+
+  function bowl() {
+    if (round >= 3) return;
+
+    sound.volume = 0.25;
+    sound.currentTime = 0;
+    sound.play();
+
+    ball.style.bottom = "120px";
+
+    setTimeout(() => {
+      const pinsKnocked = Math.floor(Math.random() * 11);
+      scores.push(pinsKnocked);
+      round++;
+
+      const pins = document.querySelectorAll(".pin");
+      for (let i = 0; i < pinsKnocked; i++) {
+        if (pins[i]) pins[i].classList.add("fallen");
+      }
+
+      updateScore();
+
+      if (pinsKnocked === 10) {
+        launchConfetti();
+        endGame();
+      } else if (round === 3) {
+        endGame();
+      } else {
+        setTimeout(() => {
+          ball.style.bottom = "10px";
+          resetPins();
+        }, 1100);
+      }
+    }, 900);
+  }
+
+  function updateScore() {
+    let total = scores.reduce((a, b) => a + b, 0);
+    let html = "<strong>Chan’s Score</strong><br>";
+
+    for (let i = 0; i < 3; i++) {
+      html += `Round ${i + 1}: ${scores[i] ?? "–"}<br>`;
+    }
+
+    html += `<strong>Total: ${total}</strong>`;
+    scorecard.innerHTML = html;
+  }
+
+  function endGame() {
+    document.getElementById("message").style.display = "block";
+    document.getElementById("nextBtn").style.display = "block";
+    localStorage.setItem("activity", "Bowling 🎳");
+  }
+
+  function goNext() {
     window.location.href = "excited.html";
+  }
+
+  function launchConfetti() {
+    const colors = ["#ff4fa3", "#ffcc00", "#7CFFCB", "#8ec5fc", "#ffffff"];
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = 2 + Math.random() * 2 + "s";
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4000);
+    }
   }
 </script>
 
