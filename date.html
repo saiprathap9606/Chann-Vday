@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Pick a Time 💘</title>
+  <title>Pick a Time 💖</title>
+
   <style>
     body {
       background: #020617;
@@ -17,57 +18,97 @@
     .box {
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 30px;
+      border-radius: 16px;
+      padding: 28px;
       width: 320px;
       text-align: center;
-      box-shadow: 0 0 40px rgba(236,72,153,0.2);
+      box-shadow: 0 0 40px rgba(236,72,153,0.25);
     }
 
     h2 {
-      margin-bottom: 10px;
+      margin-bottom: 6px;
+    }
+
+    .hint {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-bottom: 18px;
     }
 
     button {
       margin: 10px 0;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       font-family: monospace;
       font-size: 15px;
-      background: #ec4899;
+      background: #111827;
       color: white;
-      border: none;
-      border-radius: 10px;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     button:hover {
-      background: #db2777;
+      background: #1f2937;
     }
 
-    img {
-      margin-top: 20px;
-      width: 160px;
-      border-radius: 10px;
+    button.selected {
+      background: #ec4899;
+      border-color: #ec4899;
+      box-shadow: 0 0 20px rgba(236,72,153,0.6);
+    }
+
+    #nextBtn {
+      display: none;
+      margin-top: 18px;
+      background: #ec4899;
+      border: none;
     }
   </style>
 </head>
+
 <body>
 
 <div class="box">
-  <h2>When are you free? 💖</h2>
-  <p>Valentine’s Day is fixed… Feb 14!!! <br>pick a time 😌</p>
+  <h2>When are you free? 💕</h2>
+  <div class="hint">Feels like a lunch date 🥗☀️</div>
 
-  <button onclick="pickTime('12:00 PM')">🕛 12:00</button>
-<button onclick="pickTime('1:00 PM')">🕐 1:00</button>
-<button onclick="pickTime('2:00 PM')">🕑 2:00</button>
+  <button onclick="pickTime(this, '12:00 PM')">
+    ☀️🍝 12:00
+  </button>
 
-  <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" />
+  <button onclick="pickTime(this, '1:00 PM')">
+    🥗✨ 1:00
+  </button>
+
+  <button onclick="pickTime(this, '2:00 PM')">
+    🍰😌 2:00
+  </button>
+
+  <button id="nextBtn" onclick="goNext()">Next 💕</button>
 </div>
 
 <script>
-  function pickTime(time) {
+  let selectedTime = null;
+
+  function pickTime(button, time) {
+    selectedTime = time;
     localStorage.setItem("dateTime", time);
+
+    // remove highlight from others
+    document.querySelectorAll("button").forEach(btn => {
+      btn.classList.remove("selected");
+    });
+
+    // highlight selected
+    button.classList.add("selected");
+
+    // show next button
+    document.getElementById("nextBtn").style.display = "block";
+  }
+
+  function goNext() {
     window.location.href = "food.html";
   }
 </script>
