@@ -59,6 +59,13 @@
       box-shadow: 0 0 20px rgba(236,72,153,0.6);
     }
 
+    #gif {
+      display: none;
+      margin-top: 18px;
+      width: 100%;
+      border-radius: 14px;
+    }
+
     #nextBtn {
       display: none;
       margin-top: 18px;
@@ -86,25 +93,30 @@
     🍰😌 2:00
   </button>
 
+  <!-- DATE GIF (appears after selection) -->
+  <img
+    id="gif"
+    src="https://media2.giphy.com/media/d2ItDZZumUI6Y/giphy.gif"
+    alt="cute lunch gif"
+  />
+
   <button id="nextBtn" onclick="goNext()">Next 💕</button>
 </div>
 
 <script>
-  let selectedTime = null;
-
   function pickTime(button, time) {
-    selectedTime = time;
     localStorage.setItem("dateTime", time);
 
-    // remove highlight from others
-    document.querySelectorAll("button").forEach(btn => {
+    // remove highlight from all time buttons
+    document.querySelectorAll(".box button").forEach(btn => {
       btn.classList.remove("selected");
     });
 
     // highlight selected
     button.classList.add("selected");
 
-    // show next button
+    // show gif + next button
+    document.getElementById("gif").style.display = "block";
     document.getElementById("nextBtn").style.display = "block";
   }
 
