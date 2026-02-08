@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>It’s a Date 💖</title>
+  <style>
+    body {
+      background: #020617;
+      color: #e5e7eb;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 30px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(236,72,153,0.25);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    .summary {
+      text-align: left;
+      margin: 20px 0;
+      line-height: 1.6;
+    }
+
+    .highlight {
+      color: #ec4899;
+    }
+
+    img {
+      margin-top: 20px;
+      width: 170px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>So it’s a date 💖</h2>
+
+  <div class="summary">
+    🗓️ <span class="highlight">Valentine’s Day</span><br>
+    ⏰ Time: <span id="time" class="highlight"></span><br><br>
+
+    🍽️ Food: <span id="food" class="highlight"></span><br>
+    🎉 Plan: <span id="activity" class="highlight"></span><br><br>
+
+    💗 Excitement level: <span id="excited" class="highlight"></span>
+  </div>
+
+  <div>
+    I can’t wait already 😌💖
+  </div>
+
+  <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" />
+</div>
+
+<script>
+  const time = localStorage.getItem("dateTime");
+  const food = localStorage.getItem("foodChoice");
+  const activity = localStorage.getItem("activity");
+  const excitement = localStorage.getItem("excitement");
+
+  document.getElementById("time").innerText = time || "Soon 😉";
+  document.getElementById("food").innerText = food || "Something yummy 😋";
+  document.getElementById("activity").innerText = activity || "Surprise 😏";
+
+  let excitementText = "Excited 💖";
+  if (excitement) {
+    if (excitement < 25) excitementText = "Hmm 🤔";
+    else if (excitement < 50) excitementText = "Pretty excited 😄";
+    else if (excitement < 75) excitementText = "Very excited 😍";
+    else excitementText = "CAN’T WAIT 💖💖💖";
+  }
+
+  document.getElementById("excited").innerText = excitementText;
+</script>
+
+</body>
+</html>
