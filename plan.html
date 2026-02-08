@@ -5,129 +5,148 @@
 <title>Warm-up Game 🎳</title>
 
 <style>
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(circle at top, #3a004d, #0b0014);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Courier New', monospace;
-  color: #fff;
-}
+  * { box-sizing: border-box; font-family: 'Courier New', monospace; }
 
-.card {
-  width: 420px;
-  background: #0f0a1f;
-  border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 0 40px rgba(255,0,170,.35);
-  text-align: center;
-}
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #3a004f, #0b0016);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
 
-h1 { margin: 0; }
-.sub { opacity: .8; margin-bottom: 12px; }
+  .card {
+    width: 420px;
+    background: #0f0620;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    text-align: center;
+  }
 
-.lane {
-  position: relative;
-  height: 320px;
-  background: linear-gradient(#4b3528, #1f140f);
-  border-radius: 18px;
-  margin: 20px 0;
-  overflow: hidden;
-  cursor: pointer;
-}
+  h1 {
+    margin: 0;
+    font-size: 28px;
+  }
 
-/* STRIKE ZONE */
-.strike-zone {
-  position: absolute;
-  inset: 0;
-  width: 80px;
-  margin: auto;
-  background: rgba(255,255,255,.08);
-  box-shadow: inset 0 0 25px rgba(255,255,255,.35);
-}
+  .sub {
+    opacity: .8;
+    margin-bottom: 18px;
+  }
 
-/* BALL */
-.ball {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  width: 22px;
-  height: 22px;
-  background: radial-gradient(circle at 30% 30%, #aaa, #333);
-  border-radius: 50%;
-  transform: translateX(-50%);
-  transition: left .12s linear;
-}
+  /* ---------- LANE ---------- */
 
-.ball.roll {
-  animation: roll 1.2s ease-out forwards;
-}
+  .lane-wrap {
+    position: relative;
+    margin: 18px 0;
+    height: 260px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(#5b3a24, #2d1a0f);
+  }
 
-@keyframes roll {
-  to { bottom: 240px; }
-}
+  .gutter {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background: linear-gradient(#1b1b1b, #000);
+    z-index: 1;
+  }
 
-/* PINS */
-.pins {
-  position: absolute;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: grid;
-  grid-template-columns: repeat(4, 24px);
-  gap: 10px 16px;
-}
+  .gutter.left { left: 0; }
+  .gutter.right { right: 0; }
 
-.pin {
-  width: 18px;
-  height: 40px;
-  background: #fff;
-  border-radius: 8px 8px 4px 4px;
-  position: relative;
-  transition: transform .6s ease, opacity .6s ease;
-}
+  .lane {
+    position: absolute;
+    left: 60px;
+    right: 60px;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(#7a4b2a, #3a1f10);
+    box-shadow: inset 0 0 40px rgba(0,0,0,.4);
+  }
 
-.pin::after {
-  content:'';
-  position:absolute;
-  top:10px;
-  left:0;
-  right:0;
-  height:6px;
-  background:#c00;
-}
+  /* ---------- PINS ---------- */
 
-.pin.down {
-  transform: rotate(25deg) translateY(25px);
-  opacity:.25;
-}
+  .pin {
+    position: absolute;
+    width: 22px;
+    height: 44px;
+    border-radius: 10px 10px 8px 8px;
+    background: linear-gradient(#fff, #ddd);
+    box-shadow:
+      inset 0 -6px 0 #c00,
+      0 6px 10px rgba(0,0,0,.5);
+    transition: transform .6s ease, opacity .6s ease;
+  }
 
-/* SCORE */
-.score {
-  text-align:left;
-  font-size:14px;
-}
+  .pin.fall {
+    transform: rotate(70deg) translateY(30px);
+    opacity: .2;
+  }
 
-.message {
-  margin:10px 0;
-}
+  /* ---------- BALL ---------- */
 
-button {
-  width:100%;
-  margin-top:12px;
-  padding:14px;
-  background:#ff4fa3;
-  border:none;
-  border-radius:14px;
-  color:#fff;
-  font-size:18px;
-  cursor:pointer;
-}
+  .ball {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #666, #111);
+    box-shadow: 0 6px 12px rgba(0,0,0,.8);
+    transform: translateX(-50%);
+    transition: top .8s linear, left .8s linear;
+    z-index: 3;
+  }
 
-button.hidden { display:none; }
+  /* ---------- UI ---------- */
 
+  .feedback {
+    height: 24px;
+    margin-top: 6px;
+  }
+
+  .score {
+    margin-top: 14px;
+    text-align: left;
+    font-size: 15px;
+  }
+
+  .score b { font-size: 18px; }
+
+  .end {
+    margin-top: 14px;
+    display: none;
+  }
+
+  .next {
+    margin-top: 14px;
+    padding: 14px;
+    background: #ff5aa7;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  /* ---------- CONFETTI ---------- */
+
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    background: pink;
+    animation: fall 2s linear forwards;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+  }
 </style>
 </head>
 
@@ -135,118 +154,124 @@ button.hidden { display:none; }
 
 <div class="card">
   <h1>Warm-up game 🎳</h1>
-  <div class="sub">Three rolls. Chan starts 😌</div>
+  <div class="sub">Three rolls. Chan starts 😊</div>
 
-  <div class="lane" id="lane">
-    <div class="strike-zone"></div>
+  <div class="lane-wrap" id="lane">
+    <div class="gutter left"></div>
+    <div class="gutter right"></div>
+    <div class="lane"></div>
 
-    <!-- TRIANGLE: 1-2-3-4 -->
-    <div class="pins" id="pins">
-      <div class="pin"></div>
-
-      <div class="pin"></div>
-      <div class="pin"></div>
-
-      <div class="pin"></div>
-      <div class="pin"></div>
-      <div class="pin"></div>
-
-      <div class="pin"></div>
-      <div class="pin"></div>
-      <div class="pin"></div>
-      <div class="pin"></div>
-    </div>
-
+    <!-- BALL -->
     <div class="ball" id="ball"></div>
+
+    <!-- PINS (triangle) -->
+    <!-- row 1 -->
+    <div class="pin" style="top:30px; left:170px"></div>
+    <!-- row 2 -->
+    <div class="pin" style="top:60px; left:155px"></div>
+    <div class="pin" style="top:60px; left:185px"></div>
+    <!-- row 3 -->
+    <div class="pin" style="top:90px; left:140px"></div>
+    <div class="pin" style="top:90px; left:170px"></div>
+    <div class="pin" style="top:90px; left:200px"></div>
+    <!-- row 4 -->
+    <div class="pin" style="top:120px; left:125px"></div>
+    <div class="pin" style="top:120px; left:155px"></div>
+    <div class="pin" style="top:120px; left:185px"></div>
+    <div class="pin" style="top:120px; left:215px"></div>
   </div>
 
-  <div class="message" id="message"></div>
+  <div class="feedback" id="feedback"></div>
 
-  <div class="score" id="score">
-    <strong>Chan’s Score</strong><br>
-    Round 1: –<br>
-    Round 2: –<br>
-    Round 3: –<br>
-    <strong>Total: 0</strong>
+  <div class="score">
+    <b>Chan’s Score</b><br>
+    Round 1: <span id="r1">–</span><br>
+    Round 2: <span id="r2">–</span><br>
+    Round 3: <span id="r3">–</span><br>
+    <b>Total: <span id="total">0</span></b>
   </div>
 
-  <button id="next" class="hidden">Next 💕</button>
+  <div class="end" id="end">
+    <p>Now get ready to play for real 😌🎳<br>
+    After lunch, we’re going bowling.</p>
+    <div class="next" onclick="location.href='confirm.html'">Next 💕</div>
+  </div>
 </div>
 
+<audio id="cheer" src="https://assets.mixkit.co/sfx/preview/mixkit-crowd-cheer-joy-464.mp3"></audio>
+
 <script>
-let round = 1;
-let scores = [];
-let aim = 0.5;
-let rolling = false;
+  const lane = document.getElementById('lane');
+  const ball = document.getElementById('ball');
+  const pins = [...document.querySelectorAll('.pin')];
+  const feedback = document.getElementById('feedback');
 
-const lane = document.getElementById('lane');
-const ball = document.getElementById('ball');
-const pins = [...document.querySelectorAll('.pin')];
-const msg = document.getElementById('message');
-const scoreEl = document.getElementById('score');
-const nextBtn = document.getElementById('next');
+  let roll = 0;
+  let total = 0;
+  let rolling = false;
 
-/* AIM */
-lane.addEventListener('mousemove', e => {
-  if (rolling) return;
-  const r = lane.getBoundingClientRect();
-  aim = (e.clientX - r.left) / r.width;
-  aim = Math.max(.1, Math.min(.9, aim));
-  ball.style.left = `${aim * 100}%`;
-});
+  lane.addEventListener('click', e => {
+    if (rolling || roll >= 3) return;
+    rolling = true;
 
-/* ROLL ON CLICK */
-lane.addEventListener('click', () => {
-  if (rolling || round > 3) return;
-  rolling = true;
-  ball.classList.add('roll');
+    const rect = lane.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const gutterHit = x < 60 || x > rect.width - 60;
 
-  const accuracy = Math.abs(aim - .5);
-  let knocked =
-    accuracy < .04 ? 10 :
-    accuracy < .08 ? 7 :
-    accuracy < .14 ? 5 : 2;
+    ball.style.left = x + 'px';
+    ball.style.top = '40px';
 
-  setTimeout(() => {
-    pins.slice(0, knocked).forEach(p => p.classList.add('down'));
+    setTimeout(() => {
+      let hit = 0;
 
-    scores.push(knocked);
-    msg.innerHTML = knocked === 10
-      ? "STRIKE! 🎉 Nice roll 😏"
-      : "Nice roll 😏";
+      if (!gutterHit) {
+        pins.forEach(p => {
+          if (!p.classList.contains('fall')) {
+            const px = p.offsetLeft + 11;
+            if (Math.abs(px - x) < 30) {
+              p.classList.add('fall');
+              hit++;
+            }
+          }
+        });
+      }
 
-    updateScore();
+      roll++;
+      document.getElementById('r'+roll).textContent = hit;
+      total += hit;
+      document.getElementById('total').textContent = total;
 
-    if (knocked === 10 || round === 3) {
-      nextBtn.classList.remove('hidden');
-    } else {
-      round++;
-      setTimeout(resetLane, 900);
+      if (hit === 10) {
+        feedback.textContent = 'STRIKE! 🎉 Nice roll 😏';
+        celebrate();
+        endGame();
+      } else {
+        feedback.textContent = hit === 0 ? 'Oops… gutter 😅' : 'Nice roll 😌';
+      }
+
+      ball.style.top = '210px';
+      ball.style.left = '50%';
+      rolling = false;
+
+      if (roll === 3) endGame();
+    }, 900);
+  });
+
+  function celebrate() {
+    document.getElementById('cheer').play();
+    for (let i = 0; i < 40; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random()*100 + 'vw';
+      c.style.background = ['#ff5aa7','#ffd166','#06d6a0'][i%3];
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),2000);
     }
-  }, 900);
-});
+  }
 
-/* RESET */
-function resetLane() {
-  pins.forEach(p => p.classList.remove('down'));
-  ball.classList.remove('roll');
-  ball.style.bottom = '20px';
-  rolling = false;
-}
-
-/* SCORE */
-function updateScore() {
-  const total = scores.reduce((a,b)=>a+b,0);
-  scoreEl.innerHTML = `
-    <strong>Chan’s Score</strong><br>
-    Round 1: ${scores[0] ?? '–'}<br>
-    Round 2: ${scores[1] ?? '–'}<br>
-    Round 3: ${scores[2] ?? '–'}<br>
-    <strong>Total: ${total}</strong>
-  `;
-}
-
-nextBtn.onclick = () => location.href = "confirm.html";
+  function endGame() {
+    document.getElementById('end').style.display = 'block';
+  }
 </script>
 
 </body>
