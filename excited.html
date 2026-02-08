@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>How excited are you? 💖</title>
+  <style>
+    body {
+      background: #020617;
+      color: #e5e7eb;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 30px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(236,72,153,0.2);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    .reaction {
+      margin: 15px 0;
+      font-size: 16px;
+      min-height: 24px;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 15px;
+      background: #ec4899;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #db2777;
+    }
+
+    img {
+      margin-top: 20px;
+      width: 160px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>How excited are you? 😏</h2>
+
+  <input type="range" min="0" max="100" value="50" oninput="updateReaction(this.value)" />
+
+  <div class="reaction" id="reaction">
+    Hmm… thinking 🤔
+  </div>
+
+  <button onclick="confirmExcitement()">Confirm our date 💌</button>
+
+  <img src="https://media.giphy.com/media/l0MYEqEzwMWFCg8rm/giphy.gif" />
+</div>
+
+<script>
+  function updateReaction(value) {
+    let text = "";
+
+    if (value < 25) {
+      text = "Hmm… thinking 🤔";
+    } else if (value < 50) {
+      text = "Okay okay… sounds nice 😄";
+    } else if (value < 75) {
+      text = "Ooo I’m excited 😍";
+    } else {
+      text = "I CAN’T WAIT 💖💖💖";
+    }
+
+    document.getElementById("reaction").innerText = text;
+  }
+
+  function confirmExcitement() {
+    const slider = document.querySelector("input[type='range']").value;
+    localStorage.setItem("excitement", slider);
+    window.location.href = "confirm.html";
+  }
+</script>
+
+</body>
+</html>
