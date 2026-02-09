@@ -143,7 +143,10 @@
   <div class="gif" id="successGif">
     <img src="https://media4.giphy.com/media/vB6GQ7Ogc6j4I/giphy.gif">
   </div>
-
+<button id="nextBtn" style="display:none; margin-top:14px;"
+        onclick="window.location.href='plan.html'">
+  Next 💕
+</button>
   <button class="reset" onclick="location.reload()">Reset</button>
 </div>
 
@@ -186,9 +189,12 @@ function submitGuess() {
   });
 
   if (guess === ANSWER) {
-    setTimeout(() => gif.style.display = "block", 1000);
-    input.disabled = true;
-  }
+  setTimeout(() => {
+    gif.style.display = "block";
+    document.getElementById("nextBtn").style.display = "block";
+  }, 1000);
+  input.disabled = true;
+}
 
   input.value = "";
   currentRow++;
