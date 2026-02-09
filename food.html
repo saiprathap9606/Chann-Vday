@@ -1,186 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lunch 🍽️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lunch 🍽️</title>
 
-  <style>
-    /* ===== EXISTING STYLES (UNCHANGED) ===== */
-    body {
-      margin: 0;
-      font-family: monospace;
-      background: radial-gradient(circle at top, #2a003f, #120018);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: monospace;
+    background: radial-gradient(circle at top, #2a003f, #120018);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
 
-    .card {
-      width: 360px;
-      background: #0f0b1f;
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 0 40px rgba(255, 0, 150, 0.25);
-      text-align: center;
-    }
+  .card {
+    width: 360px;
+    background: #0f0b1f;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 0 40px rgba(255, 0, 150, 0.25);
+    text-align: center;
+  }
 
-    /* ===== ✅ NEW: HEADER STYLES (ONLY ADDITION) ===== */
-    .header {
-      text-align: center;
-      margin-bottom: 22px;
-    }
+  h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
 
-    .title {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
+  .subtitle {
+    opacity: 0.7;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
 
-    .subtitle {
-      font-size: 14px;
-      opacity: 0.7;
-      margin-top: 6px;
-    }
+  .grid {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
 
-    /* ===== EXISTING WORDLE STYLES (UNCHANGED) ===== */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin: 20px 0;
-    }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
 
-    .tile {
-      height: 52px;
-      border-radius: 6px;
-      border: 2px solid #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: bold;
-      text-transform: uppercase;
-      background: #111;
-    }
+  .tile {
+    height: 52px;
+    border-radius: 6px;
+    border: 2px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    background: #111;
+    text-transform: uppercase;
+  }
 
-    .tile.correct {
-      background: #538d4e;
-      border-color: #538d4e;
-    }
+  .flip {
+    animation: flip 0.6s ease forwards;
+  }
 
-    .tile.present {
-      background: #b59f3b;
-      border-color: #b59f3b;
-    }
+  @keyframes flip {
+    0% { transform: rotateX(0); }
+    50% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0); }
+  }
 
-    .tile.absent {
-      background: #3a3a3c;
-      border-color: #3a3a3c;
-    }
+  .correct { background: #538d4e; border-color: #538d4e; }
+  .present { background: #b59f3b; border-color: #b59f3b; }
+  .absent { background: #3a3a3c; border-color: #3a3a3c; }
 
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      margin-top: 12px;
-    }
+  .shake {
+    animation: shake 0.4s;
+  }
 
-    button {
-      width: 100%;
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      font-size: 16px;
-      background: #ff4fa3;
-      color: white;
-      cursor: pointer;
-    }
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
 
-    .gif {
-      margin-top: 20px;
-      display: none;
-    }
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    margin-top: 8px;
+  }
 
-    .gif img {
-      width: 100%;
-      border-radius: 12px;
-    }
-  </style>
+  button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    background: #ff4fa3;
+    color: white;
+    cursor: pointer;
+  }
+
+  .gif {
+    display: none;
+    margin-top: 18px;
+  }
+
+  .gif img {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .reset {
+    margin-top: 10px;
+    background: transparent;
+    color: #aaa;
+    font-size: 14px;
+  }
+</style>
 </head>
 
 <body>
-  <div class="card">
+<div class="card">
+  <h1>Guess what’s for lunch? 🥗</h1>
+  <div class="subtitle">Five letters. Noon cravings. 😌</div>
 
-    <!-- ===== ✅ NEW HEADER (ONLY CONTENT CHANGE) ===== -->
-    <div class="header">
-      <h1 class="title">Guess what’s for lunch? 🥗</h1>
-      <p class="subtitle">Five letters. Noon cravings. 😌</p>
-    </div>
+  <div class="grid" id="grid"></div>
 
-    <!-- ===== EXISTING WORDLE UI (UNCHANGED) ===== -->
-    <div class="grid" id="grid"></div>
+  <input id="guessInput" maxlength="5" placeholder="TYPE WORD" autofocus />
+  <button onclick="submitGuess()">Submit</button>
 
-    <input
-      type="text"
-      id="guessInput"
-      maxlength="5"
-      placeholder="TYPE WORD"
-      autofocus
-    />
-
-    <button onclick="submitGuess()">Submit</button>
-
-    <!-- ===== EXISTING GIF (UNCHANGED) ===== -->
-    <div class="gif" id="successGif">
-      <img src="https://media4.giphy.com/media/vB6GQ7Ogc6j4I/giphy.gif" alt="cute gif">
-    </div>
-
+  <div class="gif" id="successGif">
+    <img src="https://media4.giphy.com/media/vB6GQ7Ogc6j4I/giphy.gif">
   </div>
 
-  <!-- ===== EXISTING SCRIPT (UNCHANGED) ===== -->
-  <script>
-    const ANSWER = "PASTA";
-    const grid = document.getElementById("grid");
-    const input = document.getElementById("guessInput");
-    const gif = document.getElementById("successGif");
+  <button class="reset" onclick="location.reload()">Reset</button>
+</div>
 
-    let row = 0;
+<script>
+const ANSWER = "PASTA";
+const grid = document.getElementById("grid");
+const input = document.getElementById("guessInput");
+const gif = document.getElementById("successGif");
 
-    function submitGuess() {
-      const guess = input.value.toUpperCase();
-      if (guess.length !== 5) return;
+let currentRow = 0;
 
-      for (let i = 0; i < 5; i++) {
-        const tile = document.createElement("div");
-        tile.className = "tile";
-        tile.textContent = guess[i];
+// build grid
+for (let i = 0; i < 6; i++) {
+  const row = document.createElement("div");
+  row.className = "row";
+  for (let j = 0; j < 5; j++) {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    row.appendChild(tile);
+  }
+  grid.appendChild(row);
+}
 
-        if (guess[i] === ANSWER[i]) {
-          tile.classList.add("correct");
-        } else if (ANSWER.includes(guess[i])) {
-          tile.classList.add("present");
-        } else {
-          tile.classList.add("absent");
-        }
+function submitGuess() {
+  const guess = input.value.toUpperCase();
+  if (guess.length !== 5 || currentRow >= 6) {
+    shake();
+    return;
+  }
 
-        grid.appendChild(tile);
-      }
+  const row = grid.children[currentRow];
+  [...row.children].forEach((tile, i) => {
+    tile.textContent = guess[i];
+    setTimeout(() => {
+      tile.classList.add("flip");
+      if (guess[i] === ANSWER[i]) tile.classList.add("correct");
+      else if (ANSWER.includes(guess[i])) tile.classList.add("present");
+      else tile.classList.add("absent");
+    }, i * 150);
+  });
 
-      if (guess === ANSWER) {
-        gif.style.display = "block";
-        input.disabled = true;
-      }
+  if (guess === ANSWER) {
+    setTimeout(() => gif.style.display = "block", 1000);
+    input.disabled = true;
+  }
 
-      input.value = "";
-      row++;
-    }
-  </script>
+  input.value = "";
+  currentRow++;
+}
+
+function shake() {
+  input.classList.add("shake");
+  setTimeout(() => input.classList.remove("shake"), 400);
+}
+</script>
 </body>
 </html>
